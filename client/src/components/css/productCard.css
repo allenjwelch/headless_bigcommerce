@@ -1,0 +1,32 @@
+.product-card {
+	width: 22%;
+	display: inline-block;
+	min-height: 200px;
+	margin: 10px;
+	vertical-align: top;
+	box-shadow: 0 0 10px #ccc;
+	padding: 10px;
+	transition: .5s all ease-in-out;
+
+}
+
+.product-card:hover {
+	transform: scale(0.95);
+}
+
+.product-card h1 {
+	font: 700 18px 'Arial', sans-serif;
+}
+
+.product-card img {
+	height: 100%;
+	width: 100%;
+}
+
+
+/* .product-card
+.product-card
+.product-card
+.product-card
+.product-card
+.product-card  */
