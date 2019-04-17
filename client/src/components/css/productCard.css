@@ -7,6 +7,8 @@
 	box-shadow: 0 0 10px #ccc;
 	padding: 10px;
 	transition: .5s all ease-in-out;
+	text-decoration: none;
+	color: #333;
 
 }
 

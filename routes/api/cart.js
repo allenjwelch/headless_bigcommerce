@@ -16,26 +16,40 @@ router.get("/", function (req, res) {
 });
 
 router.post("/create", function (req, res) {
+	console.log(req.body.lineItems)
 
 	axios({
 		method: 'post',
 		url: 'https://eystudios-stencil.mybigcommerce.com/api/storefront/carts',
 		data: {
-			"lineItems": [
-				{
-					"quantity": 1,
-					"productId": 130
-				}
-			]
+			"lineItems": [req.body.lineItems ]
+			// 	{
+			// 		"quantity": 1,
+			// 		"productId": 130
+			// 	}
+			// ]
 		}
 	})
-	.then(cart => console.log(cart.data))
+	.then(cart => {
+		console.log(cart.data)
+		res.json(cart.data)
+	})
 	.catch(err => console.log(err))
-
-
 })
 
-// router.get()
+router.get("/mycart/:cartId", function(req, res) {
+	console.log(req.params)
+	axios({
+		method: 'get',
+		url: `https:///eystudios-stencil.mybigcommerce.com/api/storefront/carts/${req.params.cartId}`,
+	})
+	.then((response) => {
+		let responseData = { response };
+		res.status(200).send(responseData);
+	})
+	.catch(err => console.log(err))
+})
+
 // router.put()
 // router.delete()
 // https://developer.bigcommerce.com/api-reference/cart-checkout/storefront-cart-api/cart/getacart

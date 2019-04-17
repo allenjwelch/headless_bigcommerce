@@ -1,0 +1,67 @@
+.product-page {
+
+}
+
+.productView {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.productView-images, .productView-details {
+	margin: 50px 0;
+	width: 50%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.productView-thumbnails {
+	display: block;
+	margin: 10px auto;
+
+}
+
+.product-thumbnail {
+	height: 100px;
+	width: 100px;
+	margin: 5px;
+	vertical-align: top;
+}
+
+.productView-details-container {
+	text-align: left;
+}
+
+.productView-actions {
+	margin: 20px auto;
+}
+
+.productView-actions button {
+	width: 40%;
+	margin: 0 10px;
+	height: 40px;
+	font: 700 16px 'Arial', sans-serif;
+	color: #fff;
+	border-style: none;
+	cursor: pointer;
+
+}
+
+.productView-actions .add-to-cart {
+	background: orange;
+	border: 1px solid orange;
+}
+
+.productView-actions .add-to-cart:hover {
+	background: #fff;
+	color: orange
+}
+
+.productView-actions .add-to-wishlist {
+	background: #5252b8;
+	border: 1px solid #5252b8;
+}
+
+.productView-actions .add-to-wishlist:hover {
+	background: #fff;
+	color: #5252b8
+}

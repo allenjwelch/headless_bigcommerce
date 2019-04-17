@@ -14,18 +14,24 @@ const Header = (props) => {
 			}
 			<img src={logo} className="App-logo" alt="logo" />
 
+			<p>Cart: {props.cartTotal}</p>
+
 			<div className="links">
-				{/* {
-					props.user.length > 0 ?
-						<span onClick={props.signOut} className="header-links">Sign Out</span> :
-						<span onClick={props.signInModal} className="header-links">Sign In</span>
-				} */}
+
 				<Link to="/" className="header-links">Home</Link>
-				<Link to="/category" className="header-links">All Category</Link>
+				<Link to="/category" className="header-links">All Products</Link>
 
 				{
 					props.mainCategories.map(tlc => {
-						return <Link key={tlc.id} to={tlc.custom_url.url} className="header-links">{tlc.name}</Link>
+						return <Link
+									key={tlc.id}
+									to={{ pathname: tlc.custom_url.url,
+										  state: {
+											  id: tlc.id,
+											  name: tlc.name
+										  }
+										}}
+									className="header-links">{tlc.name}</Link>
 					})
 				}
 			</div>
