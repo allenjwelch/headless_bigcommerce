@@ -10,6 +10,7 @@
 	flex-wrap: wrap;
 	margin: 50px auto;
 	width: 90%;
+	max-width: 1200px;
 	height: auto;
 }
 

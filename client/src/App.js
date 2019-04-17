@@ -7,7 +7,8 @@ import Product from './views/Product';
 import AllProducts from './views/AllProducts';
 import Header from './components/Header';
 import Products from './utils/productsAPI';
-import Cart from './assets/js/cart'
+import Cart from './utils/cartAPI';
+// import Cart from './assets/js/cart'
 
 
 class App extends Component {
@@ -22,7 +23,7 @@ class App extends Component {
 	componentDidMount() {
 		this.getAllCategories()
 		this.getProducts()
-		this.getCart()
+		// this.getCart()
 	}
 
 	getAllCategories() {
@@ -45,13 +46,13 @@ class App extends Component {
 				}))
 	}
 
-	getCart() {
-		console.log(Cart)
-		Cart.get()
-			// .then(res =>
-			// 	this.setState({ cartTotal: res.data.response.data }, () => {
-			// 		console.log(this.state.cartTotal)
-			// 	}))
+	getCart() { //! Not working correctly...
+		console.log('getting cart')
+		Cart.getCart(localStorage.getItem('cart'))
+			.then(res => {
+				console.log(res)
+			})
+			.catch(err => console.log(err))
 	}
 
 	render() {

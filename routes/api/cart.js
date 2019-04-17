@@ -34,7 +34,10 @@ router.post("/create", function (req, res) {
 		console.log(cart.data)
 		res.json(cart.data)
 	})
-	.catch(err => console.log(err))
+	.catch(err => {
+		console.log(err.response.data)
+		res.json(err.response.data)
+	})
 })
 
 router.get("/mycart/:cartId", function(req, res) {
@@ -47,7 +50,7 @@ router.get("/mycart/:cartId", function(req, res) {
 		let responseData = { response };
 		res.status(200).send(responseData);
 	})
-	.catch(err => console.log(err))
+	.catch(err => console.log('ERROR: ' + err))
 })
 
 // router.put()

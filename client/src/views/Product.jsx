@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Products from '../utils/productsAPI'
-import Cart from '../assets/js/cart'
+import Cart from '../utils/cartAPI'
+// import Cart from '../assets/js/cart'
 
 import './css/product.css';
 
@@ -10,6 +11,7 @@ class Product extends Component {
 		images: [],
 		data: {},
 		qty: 1,
+		cartResponse: '',
 	}
 
 	componentDidMount() {
@@ -39,6 +41,25 @@ class Product extends Component {
 		result = result.replace('</p>', '');
 		result = result.replace('</div>', '');
 		return result;
+	}
+
+	addToCart(lineItems) {
+		let btn = document.querySelector('.add-to-cart')
+		btn.innerHTML = "Adding to cart..."
+		btn.disabled = true
+		Cart.createCart(lineItems)
+			.then(res => {
+				console.log(res)
+				localStorage.setItem('cart', res.data.id) // probably not the best way, but fuck it.
+				this.setState({ cartResponse: res.data.title }, () => {
+					console.log(this.state.cartResponse)
+				})
+			})
+			.then(() => {
+				btn.innerHTML = "Add to Cart"
+				btn.disabled = false
+			})
+			.catch (err => console.log(err))
 	}
 
 	render() {
@@ -79,19 +100,30 @@ class Product extends Component {
 									<h2>Description: </h2>
 									{ this.removeHTML(this.state.data.description) }
 
-									<div className="productView-actions">
-										{/* <button className="add-to-cart"
-											onClick={() => this.createCart({
-												"quantity" : this.state.qty,
-												"productId" : this.state.data.id,
-											})}>Add to Cart</button> */}
-										<button className="add-to-cart"
-											onClick={() => Cart.create({
-												"quantity": this.state.qty,
-												"productId": this.state.data.id,
-											})}>Add to Cart</button>
-										<button className="add-to-wishlist">Wishlist</button>
-									</div>
+
+									{
+										this.state.data.inventory_level > 0 ?
+											<div className="productView-actions">
+												<button className="add-to-cart"
+													onClick={() => this.addToCart({
+														"quantity" : this.state.qty,
+														"productId" : this.state.data.id,
+													})}>Add to Cart</button>
+												{/* <button className="add-to-cart"
+													onClick={() => Cart.create({
+														"quantity": this.state.qty,
+														"productId": this.state.data.id,
+													})}>Add to Cart</button> */}
+												<button className="add-to-wishlist">Wishlist</button>
+
+												{
+													this.state.cartResponse && <h3>Sorry. {this.state.cartResponse}</h3>
+												}
+											</div>
+										: <div className="out-of-stock">
+											<h2>Sorry, this item is currently out of stock.</h2>
+										  </div>
+									}
 
 								</div>
 							: <p>No details at this time</p>
