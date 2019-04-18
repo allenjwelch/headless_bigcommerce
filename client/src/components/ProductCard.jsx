@@ -15,7 +15,7 @@ class ProductCard extends Component {
 
 	componentDidMount() {
 		this.getProductImages()
-		console.log(this.props)
+		// console.log(this.props)
 		const { id, title, description, url } = this.props
 		this.setState({ id, title, description, url })
 	}

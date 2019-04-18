@@ -6,6 +6,17 @@ import logo from '../logo.svg';
 const Header = (props) => {
 	console.log(props)
 
+	const calcCartTotal = () => {
+
+		if (props.cart) {
+			let physical = props.cart.line_items.physical_items.length;
+			let custom = props.cart.line_items.custom_items.length;
+			let digital = props.cart.line_items.digital_items.length;
+			let gift = props.cart.line_items.gift_certificates.length;
+			console.log(physical)
+			return physical + custom + digital + gift;
+		}
+	}
 
 	return (
 		<header>
@@ -14,7 +25,7 @@ const Header = (props) => {
 			}
 			<img src={logo} className="App-logo" alt="logo" />
 
-			<p>Cart: {props.cartTotal}</p>
+			<p>Cart: {calcCartTotal()}</p>
 
 			<div className="links">
 

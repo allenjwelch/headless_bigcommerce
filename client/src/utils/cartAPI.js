@@ -7,6 +7,9 @@ export default {
 	},
 	getCart: function(cartId) {
 		return axios.get(`/eyAPI/cart/mycart/${cartId}`)
+	},
+	addToCart: function (cartId, lineItems) {
+		return axios.post(`/eyAPI/cart/mycart/addto/${cartId}`, { lineItems })
 	}
 
 }

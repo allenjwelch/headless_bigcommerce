@@ -45,21 +45,40 @@ class Product extends Component {
 
 	addToCart(lineItems) {
 		let btn = document.querySelector('.add-to-cart')
-		btn.innerHTML = "Adding to cart..."
-		btn.disabled = true
-		Cart.createCart(lineItems)
-			.then(res => {
-				console.log(res)
-				localStorage.setItem('cart', res.data.id) // probably not the best way, but fuck it.
-				this.setState({ cartResponse: res.data.title }, () => {
-					console.log(this.state.cartResponse)
+		// btn.innerHTML = "Adding to cart..."
+		// btn.disabled = true
+
+		if (localStorage.getItem('cart')) { // first check to see if a cart has already been created.
+			console.log('cart exists')
+			Cart.addToCart(lineItems)
+				.then(res => {
+					console.log(res)
+					localStorage.setItem('cart', res.data.id) // probably not the best way, but fuck it.
+					this.setState({ cartResponse: res.data.title }, () => {
+						console.log(this.state.cartResponse)
+					})
 				})
-			})
-			.then(() => {
-				btn.innerHTML = "Add to Cart"
-				btn.disabled = false
-			})
-			.catch (err => console.log(err))
+				.then(() => {
+					// btn.innerHTML = "Add to Cart"
+					// btn.disabled = false
+				})
+				.catch(err => console.log(err))
+
+		} else {
+			Cart.createCart(lineItems)
+				.then(res => {
+					console.log(res)
+					localStorage.setItem('cart', res.data.id) // probably not the best way, but fuck it.
+					this.setState({ cartResponse: res.data.title }, () => {
+						console.log(this.state.cartResponse)
+					})
+				})
+				.then(() => {
+					// btn.innerHTML = "Add to Cart"
+					// btn.disabled = false
+				})
+				.catch (err => console.log(err))
+		}
 	}
 
 	render() {
@@ -106,8 +125,12 @@ class Product extends Component {
 											<div className="productView-actions">
 												<button className="add-to-cart"
 													onClick={() => this.addToCart({
-														"quantity" : this.state.qty,
-														"productId" : this.state.data.id,
+														"line_items": [
+															{
+																"quantity" : this.state.qty,
+																"product_id" : this.state.data.id,
+															}
+														]
 													})}>Add to Cart</button>
 												{/* <button className="add-to-cart"
 													onClick={() => Cart.create({

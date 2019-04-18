@@ -17,13 +17,13 @@ class App extends Component {
 		allCategories: [],
 		mainCategories: [],
 		allProducts: [],
-		cartTotal: 0
+		cart: null
 	}
 
 	componentDidMount() {
 		this.getAllCategories()
 		this.getProducts()
-		// this.getCart()
+		this.getCart()
 	}
 
 	getAllCategories() {
@@ -50,7 +50,9 @@ class App extends Component {
 		console.log('getting cart')
 		Cart.getCart(localStorage.getItem('cart'))
 			.then(res => {
-				console.log(res)
+				this.setState({ cart: res.data.response.data }, () => {
+					console.log(this.state.cart)
+				})
 			})
 			.catch(err => console.log(err))
 	}
@@ -59,7 +61,7 @@ class App extends Component {
 		return (
 			<Router>
 				<div className="App">
-					<Header allCategories={this.state.allCategories} mainCategories={this.state.mainCategories} cartTotal={this.state.cartTotal}/>
+					<Header allCategories={this.state.allCategories} mainCategories={this.state.mainCategories} cart={this.state.cart}/>
 					<Switch>
 						<Route exact path="/" component={Home} />
 						<Route exact path="/category" component={AllProducts} />

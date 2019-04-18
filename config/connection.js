@@ -129,6 +129,8 @@ Connection.prototype = {
      * @return Promise - Promise containing the API response.
      */
     put: function (endpoint, data) {
+		console.log(this.host + endpoint)
+
         var self = this;
         return new Promise(function (fulfill, reject) {
             // Make PUT request:
@@ -162,6 +164,8 @@ Connection.prototype = {
      * @return Promise - Promise containing the API response.
      */
     post: function (endpoint, data) {
+		console.log(this.host + endpoint)
+
         var self = this;
         return new Promise(function (fulfill, reject) {
             // Make POST request:
@@ -194,6 +198,8 @@ Connection.prototype = {
      * @return Promise - Promise containing the API response.
      */
     delete: function (endpoint) {
+		console.log(this.host + endpoint)
+
         var self = this;
         return new Promise(function (fulfill, reject) {
             // Make DELETE request:
