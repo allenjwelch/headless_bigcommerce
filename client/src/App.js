@@ -46,15 +46,20 @@ class App extends Component {
 				}))
 	}
 
-	getCart() { //! Not working correctly...
+	getCart() {
 		console.log('getting cart')
-		Cart.getCart(localStorage.getItem('cart'))
-			.then(res => {
-				this.setState({ cart: res.data.response.data }, () => {
-					console.log(this.state.cart)
+
+		if (localStorage.getItem('cart') !== null) { // first check to see if a cart has already been created.
+
+			Cart.getCart(localStorage.getItem('cart'))
+				.then(res => {
+					this.setState({ cart: res.data.response.data }, () => {
+						console.log(this.state.cart)
+					})
 				})
-			})
-			.catch(err => console.log(err))
+				.catch(err => console.log(err))
+
+		}
 	}
 
 	render() {

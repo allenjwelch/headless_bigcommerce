@@ -16,7 +16,7 @@ router.get("/", function (req, res) {
 });
 
 router.post("/create", function (req, res) {
-	console.log(req.body.lineItems)
+	console.log('Data Received: ', req.body.lineItems)
 
 	// axios({
 	// 	method: 'post',
@@ -40,6 +40,7 @@ router.post("/create", function (req, res) {
 			res.status(200).send(responseData);
 		})
 		.catch((err) => {
+			console.log('this shit')
 			console.log(err)
 		})
 })
@@ -68,7 +69,9 @@ router.get("/mycart/:cartId", function(req, res) {
 
 router.post("/mycart/addto/:cartId", function(req, res) {
 	console.log('adding to cart')
-	API.get(`/carts/${req.params.cartId}/items`, req.body.lineItems)
+	console.log(req.body.lineItems)
+	console.log(req.params.cartId)
+	API.post(`/carts/${req.params.cartId}/items`, req.body.lineItems)
 		.then((response) => {
 			let responseData = { response };
 			res.status(200).send(responseData);

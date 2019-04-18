@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import Products from '../utils/productsAPI';
-import ProductCard from '../components/ProductCard';
+import React, { Component } from 'react'
+import Products from '../utils/productsAPI'
+import ProductCard from '../components/ProductCard'
+import './css/category.css'
 
 
 class Category extends Component {
@@ -31,6 +32,7 @@ class Category extends Component {
 				<h1>{this.state.name}</h1>
 				<h3>Category Page</h3>
 
+				<section className="product-cards">
 				{
 					this.state.products.filter(product => {
 						for(let i = 0; i < product.categories.length; i++) {
@@ -42,6 +44,7 @@ class Category extends Component {
 						return <ProductCard key={product.id} id={product.id} title={product.name} url={product.custom_url.url} description={product.description} />
 					})
 				}
+				</section>
 
 			</main>
 

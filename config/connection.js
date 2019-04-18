@@ -165,23 +165,42 @@ Connection.prototype = {
      */
     post: function (endpoint, data) {
 		console.log(this.host + endpoint)
+		console.log(data)
 
         var self = this;
         return new Promise(function (fulfill, reject) {
             // Make POST request:
             request(self.getRequestOptions('POST', endpoint, data), function (err, res, body) {
                 // Check for client or BigCommerce error:
-                if (err || res.statusCode !== 200) {
-                    return err ? reject(err) : reject(body); //Return request error if (err), else return the BC error (status != 200)
-                }
+
+				if (res.statusCode === 201 || res.statusCode === 200) {
+					console.log('success!')
+					fulfill(JSON.parse(body));
+				} else if (res.statusCode !== 201 || res.statusCode !== 200) {
+					console.log('FUUUCCCKKK! ', res.statusCode)
+					return err ? reject(err) : reject(body); //Return request error if (err), else return the BC error (status != 200)
+				} else {
+					console.log('FUUUCCCKKK! ', res.statusCode)
+					return err ? reject(err) : reject(body); //Return request error if (err), else return the BC error (status != 200)
+				}
+
+				// if (err || res.statusCode !== 201 || res.statusCode !== 200) { //! Returns a 201 created
+                // // if (err) {
+				// 	console.log('FUUUCCCKKK! ', res.statusCode)
+				// 	return err ? reject(err) : reject(body); //Return request error if (err), else return the BC error (status != 200)
+                // }
+
+
                 // Check to see if request was rate-limited:
                 if (res.statusCode === 429) {
                     var timeout = ((parseInt(res.headers["X-Retry-After"]) + 2) * 1000); //Parse rate-limit, add 2 seconds, convert to milliseconds.
                     setTimeout(function () {
+						console.log('statusCode === 429')
                         fulfill(self.post(endpoint, data));
                     }, timeout);
                 } else {
                     // Else response good, parse and return body:
+					console.log('success!')
                     fulfill(JSON.parse(body));
                 }
             });

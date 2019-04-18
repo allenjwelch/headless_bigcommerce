@@ -25,7 +25,7 @@ const Header = (props) => {
 			}
 			<img src={logo} className="App-logo" alt="logo" />
 
-			<p>Cart: {calcCartTotal()}</p>
+			<p>Cart: {calcCartTotal() || 0}</p>
 
 			<div className="links">
 

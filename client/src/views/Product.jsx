@@ -11,7 +11,8 @@ class Product extends Component {
 		images: [],
 		data: {},
 		qty: 1,
-		cartResponse: '',
+		errorResponse: '',
+		inCart: false,
 	}
 
 	componentDidMount() {
@@ -48,14 +49,13 @@ class Product extends Component {
 		// btn.innerHTML = "Adding to cart..."
 		// btn.disabled = true
 
-		if (localStorage.getItem('cart')) { // first check to see if a cart has already been created.
+		if (localStorage.getItem('cart') !== null ) { // first check to see if a cart has already been created.
 			console.log('cart exists')
-			Cart.addToCart(lineItems)
+			Cart.addToCart(localStorage.getItem('cart'), lineItems) //! illegal error
 				.then(res => {
 					console.log(res)
-					localStorage.setItem('cart', res.data.id) // probably not the best way, but fuck it.
-					this.setState({ cartResponse: res.data.title }, () => {
-						console.log(this.state.cartResponse)
+					this.setState({ inCart: true }, () => {
+						console.log(this.state.inCart)
 					})
 				})
 				.then(() => {
@@ -65,19 +65,25 @@ class Product extends Component {
 				.catch(err => console.log(err))
 
 		} else {
+			console.log('creating new cart...')
 			Cart.createCart(lineItems)
 				.then(res => {
 					console.log(res)
-					localStorage.setItem('cart', res.data.id) // probably not the best way, but fuck it.
-					this.setState({ cartResponse: res.data.title }, () => {
-						console.log(this.state.cartResponse)
-					})
+					localStorage.setItem('cart', res.data.response.data.id) // probably not the best way, but fuck it.
+					// this.setState({ cartResponse: res.data.response.data }, () => {
+					// 	console.log(this.state.cartResponse)
+					// })
 				})
 				.then(() => {
 					// btn.innerHTML = "Add to Cart"
 					// btn.disabled = false
 				})
-				.catch (err => console.log(err))
+				.catch (err => {
+					console.log(err)
+					this.setState({ cartResponse: err }, () => {
+						console.log(this.state.cartResponse)
+					})
+				})
 		}
 	}
 
@@ -141,6 +147,10 @@ class Product extends Component {
 
 												{
 													this.state.cartResponse && <h3>Sorry. {this.state.cartResponse}</h3>
+												}
+
+												{
+													this.state.inCart && <h3>This item is in your cart!</h3>
 												}
 											</div>
 										: <div className="out-of-stock">
