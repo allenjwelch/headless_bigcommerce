@@ -18,38 +18,6 @@ class CartPage extends Component {
 		this.props.getCart()
 	}
 
-	// getCart() {
-	// 	console.log('getting cart')
-	// 	console.log(this.state.cart)
-
-	// 	if (localStorage.getItem('cart') !== null) { // first check to see if a cart has already been created.
-	// 		Cart.getCart(localStorage.getItem('cart'))
-	// 			.then(res => {
-	// 				this.setState({ cart: res.data.response.data }, () => {
-	// 					console.log(this.state.cart)
-	// 					if(this.state.cart.length === 0) {
-	// 						console.log('removing local storage')
-	// 						localStorage.removeItem('cart')
-	// 					}
-	// 				})
-	// 			})
-	// 			.catch(err => console.log(err))
-	// 	}
-	// }
-
-
-
-	// deleteCartItem(cartId, itemId) {
-	// 	console.log('deleting cart item...')
-
-	// 	Cart.deleteCartItem(cartId, itemId)
-	// 		.then(res => {
-	// 			console.log(res)
-	// 			this.getCart()
-	// 		})
-	// 		.catch(err => console.log(err))
-	// }
-
 	render() {
 		return (
 			<main className="cart-page">

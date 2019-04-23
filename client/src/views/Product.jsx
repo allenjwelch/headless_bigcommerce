@@ -44,49 +44,6 @@ class Product extends Component {
 		return result;
 	}
 
-	// addToCart(lineItems) { //! MOVED TO APP.js
-	// 	// let btn = document.querySelector('.add-to-cart')
-	// 	// btn.innerHTML = "Adding to cart..."
-	// 	// btn.disabled = true
-
-	// 	if (localStorage.getItem('cart') !== null ) { // first check to see if a cart has already been created.
-	// 		console.log('cart exists')
-	// 		Cart.addToCart(localStorage.getItem('cart'), lineItems) //! illegal error
-	// 			.then(res => {
-	// 				console.log(res)
-	// 				this.setState({ inCart: true }, () => {
-	// 					console.log(this.state.inCart)
-	// 				})
-	// 			})
-	// 			.then(() => {
-	// 				// btn.innerHTML = "Add to Cart"
-	// 				// btn.disabled = false
-	// 			})
-	// 			.catch(err => console.log(err))
-
-	// 	} else {
-	// 		console.log('creating new cart...')
-	// 		Cart.createCart(lineItems)
-	// 			.then(res => {
-	// 				console.log(res)
-	// 				localStorage.setItem('cart', res.data.response.data.id) // probably not the best way, but fuck it.
-	// 				// this.setState({ cartResponse: res.data.response.data }, () => {
-	// 				// 	console.log(this.state.cartResponse)
-	// 				// })
-	// 			})
-	// 			.then(() => {
-	// 				// btn.innerHTML = "Add to Cart"
-	// 				// btn.disabled = false
-	// 			})
-	// 			.catch (err => {
-	// 				console.log(err)
-	// 				this.setState({ cartResponse: err }, () => {
-	// 					console.log(this.state.cartResponse)
-	// 				})
-	// 			})
-	// 	}
-	// }
-
 	render() {
 
 		return (
@@ -139,11 +96,7 @@ class Product extends Component {
 															}
 														]
 													})}>Add to Cart</button>
-												{/* <button className="add-to-cart"
-													onClick={() => Cart.create({
-														"quantity": this.state.qty,
-														"productId": this.state.data.id,
-													})}>Add to Cart</button> */}
+
 												<button className="add-to-wishlist">Wishlist</button>
 
 												{
