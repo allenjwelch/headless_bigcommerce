@@ -10,6 +10,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Products from './utils/productsAPI';
 import Cart from './utils/cartAPI';
+import Store from './utils/storeAPI';
 // import Cart from './assets/js/cart'
 
 
@@ -33,16 +34,25 @@ class App extends Component {
 		this.getAllCategories()
 		this.getProducts()
 		this.getCart()
+		this.getStoreInfo()
+	}
+
+	getStoreInfo() {
+		Store.storeInfo()
+			.then(res =>
+				this.setState({ store: res.data }, () => {
+					console.log(this.state.store)
+				}))
 	}
 
 	getAllCategories() {
 		Products.getAllCategories()
 			.then(res =>
 				this.setState({ allCategories: res.data.response.data }, () => {
-					console.log(this.state.allCategories)
+					// console.log(this.state.allCategories)
 					const mainCategories = this.state.allCategories.filter(category => category.parent_id === 0 && category.is_visible === true)
 					this.setState({mainCategories}, () => {
-						console.log(this.state.mainCategories)
+						// console.log(this.state.mainCategories)
 					})
 				}))
 	}
@@ -51,7 +61,7 @@ class App extends Component {
 		Products.getAllProducts()
 			.then(res =>
 				this.setState({ allProducts: res.data.response.data }, () => {
-					console.log(this.state.allProducts)
+					// console.log(this.state.allProducts)
 				}))
 	}
 
@@ -158,7 +168,12 @@ class App extends Component {
 		return (
 			<Router>
 				<div className="App">
-					<Header allCategories={this.state.allCategories} mainCategories={this.state.mainCategories} cartTotal={this.state.cartTotal}/>
+					<Header
+						allCategories={this.state.allCategories}
+						mainCategories={this.state.mainCategories}
+						cartTotal={this.state.cartTotal}
+						store={this.state.store}
+					/>
 					<Switch>
 						<Route exact path="/" component={Home} />
 						<Route exact path="/category" component={AllProducts} />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import Products from '../utils/productsAPI'
-import Cart from '../utils/cartAPI'
+// import Cart from '../utils/cartAPI'
 
 import remove from '../assets/images/remove.png';
 

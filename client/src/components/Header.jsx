@@ -27,7 +27,9 @@ const Header = (props) => {
 			<img src={logo} className="App-logo" alt="logo" />
 
 			<div className="site-info">
-				<h1>Site Name</h1>
+				{
+					props.store ? <h1>{props.store.name}</h1> : <h1>Welcome!</h1>
+				}
 			</div>
 			<div className="cart-nav">
 				<Link to="/cart" >
