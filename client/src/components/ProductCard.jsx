@@ -38,15 +38,12 @@ class ProductCard extends Component {
 					}
 				}}
 				className="product-card">
-				{/* <div className="product-card-container"> */}
 					<h1>{this.state.title}</h1>
-
 					{
 						this.state.images.length > 0 ?
 							<img src={this.state.images[0].url_standard} alt=""/>
 						: <p>No Image</p>
 					}
-				{/* </div> */}
 			</Link>
 
 		)

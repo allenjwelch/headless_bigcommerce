@@ -21,7 +21,7 @@ class Category extends Component {
 		Products.getAllProducts()
 			.then(res =>
 				this.setState({ products: res.data.response.data }, () => {
-					console.log(this.state.products)
+					// console.log(this.state.products)
 				}))
 	}
 
