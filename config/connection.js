@@ -99,8 +99,11 @@ Connection.prototype = {
             // Make GET request:
             request(self.getRequestOptions('GET', endpoint), function (err, res, body) {
                 // Check for client or BigCommerce error:
+				console.log('STATUS: ', res.statusCode)
+
                 if (err || res.statusCode !== 200) {
-                    console.log(err);
+                    console.log('ERROR: ', err);
+					// err === null && JSON.parse(err)
                     return err ? reject(err) : reject(body); //Return request error if (err), else return the BC error (status != 200)
                 }
                 // Check to see if request was rate-limited:
@@ -136,6 +139,8 @@ Connection.prototype = {
             // Make PUT request:
             request(self.getRequestOptions('PUT', endpoint, data), function (err, res, body) {
                 // Check for client or BigCommerce error:
+				console.log('STATUS: ', res.statusCode)
+
                 if (err || res.statusCode !== 200) {
                     return err ? reject(err) : reject(body); //Return request error if (err), else return the BC error (status != 200)
                 }
@@ -172,6 +177,7 @@ Connection.prototype = {
             // Make POST request:
             request(self.getRequestOptions('POST', endpoint, data), function (err, res, body) {
                 // Check for client or BigCommerce error:
+				console.log('STATUS: ', res.statusCode)
 
 				if (res.statusCode === 201 || res.statusCode === 200) {
 					console.log('success!')
@@ -183,13 +189,6 @@ Connection.prototype = {
 					console.log('FUUUCCCKKK! ', res.statusCode)
 					return err ? reject(err) : reject(body); //Return request error if (err), else return the BC error (status != 200)
 				}
-
-				// if (err || res.statusCode !== 201 || res.statusCode !== 200) { //! Returns a 201 created
-                // // if (err) {
-				// 	console.log('FUUUCCCKKK! ', res.statusCode)
-				// 	return err ? reject(err) : reject(body); //Return request error if (err), else return the BC error (status != 200)
-                // }
-
 
                 // Check to see if request was rate-limited:
                 if (res.statusCode === 429) {
@@ -223,20 +222,48 @@ Connection.prototype = {
         return new Promise(function (fulfill, reject) {
             // Make DELETE request:
             request(self.getRequestOptions('DELETE', endpoint), function (err, res, body) {
+				console.log('STATUS: ', res.statusCode)
                 // Check for client or BigCommerce error:
-                if (err || res.statusCode !== 200) {
-                    return err ? reject(err) : reject(body); //Return request error if (err), else return the BC error (status != 200)
-                }
-                // Check to see if request was rate-limited:
-                if (res.statusCode === 429) {
-                    var timeout = ((parseInt(res.headers["X-Retry-After"]) + 2) * 1000); //Parse rate-limit, add 2 seconds, convert to milliseconds.
-                    setTimeout(function () {
-                        fulfill(self.delete(endpoint));
-                    }, timeout);
-                } else {
-                    // Else response good, parse and return body:
-                    fulfill(JSON.parse(body));
-                }
+
+				if (res.statusCode === 204 || res.statusCode === 201 || res.statusCode === 200 ) {
+					console.log('success!')
+					console.log(body)
+					fulfill(JSON.stringify(body));
+				} else if (res.statusCode !== 201 || res.statusCode !== 200 || res.statusCode !== 204 ) {
+					console.log('FUUUCCCKKK! ', res.statusCode)
+					return err ? reject(err) : reject(body); //Return request error if (err), else return the BC error (status != 200)
+				} else {
+					console.log('FUUUCCCKKK! ', res.statusCode)
+					return err ? reject(err) : reject(body); //Return request error if (err), else return the BC error (status != 200)
+				}
+
+				// Check to see if request was rate-limited:
+				if (res.statusCode === 429) {
+					var timeout = ((parseInt(res.headers["X-Retry-After"]) + 2) * 1000); //Parse rate-limit, add 2 seconds, convert to milliseconds.
+					setTimeout(function () {
+						console.log('statusCode === 429')
+						fulfill(self.post(endpoint, data));
+					}, timeout);
+				} else {
+					// Else response good, parse and return body:
+					console.log('success!')
+					fulfill(JSON.stringify(body));
+				}
+
+
+                // if (err || res.statusCode !== 200) {
+                //     return err ? reject(err) : reject(body); //Return request error if (err), else return the BC error (status != 200)
+                // }
+                // // Check to see if request was rate-limited:
+                // if (res.statusCode === 429) {
+                //     var timeout = ((parseInt(res.headers["X-Retry-After"]) + 2) * 1000); //Parse rate-limit, add 2 seconds, convert to milliseconds.
+                //     setTimeout(function () {
+                //         fulfill(self.delete(endpoint));
+                //     }, timeout);
+                // } else {
+                //     // Else response good, parse and return body:
+                //     fulfill(JSON.parse(body));
+                // }
             });
         });
     },

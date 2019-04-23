@@ -2,21 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './css/header.css';
 import logo from '../logo.svg';
+import cartIcon from '../assets/images/cart-icon.png';
 
 const Header = (props) => {
 	console.log(props)
 
-	const calcCartTotal = () => {
+	// const calcCartTotal = () => {
 
-		if (props.cart) {
-			let physical = props.cart.line_items.physical_items.length;
-			let custom = props.cart.line_items.custom_items.length;
-			let digital = props.cart.line_items.digital_items.length;
-			let gift = props.cart.line_items.gift_certificates.length;
-			console.log(physical)
-			return physical + custom + digital + gift;
-		}
-	}
+	// 	if (props.cart) {
+	// 		let physical = props.cart.line_items.physical_items.length;
+	// 		let custom = props.cart.line_items.custom_items.length;
+	// 		let digital = props.cart.line_items.digital_items.length;
+	// 		let gift = props.cart.line_items.gift_certificates.length;
+	// 		console.log(physical)
+	// 		return physical + custom + digital + gift;
+	// 	}
+	// }
 
 	return (
 		<header>
@@ -25,7 +26,17 @@ const Header = (props) => {
 			}
 			<img src={logo} className="App-logo" alt="logo" />
 
-			<p>Cart: {calcCartTotal() || 0}</p>
+			<div className="site-info">
+				<h1>Site Name</h1>
+			</div>
+			<div className="cart-nav">
+				<Link to="/cart" >
+					<img src={cartIcon} alt="cart"/>
+					{
+						props.cartTotal ? <span>{props.cartTotal}</span> : <span>0</span>
+					}
+				</Link>
+			</div>
 
 			<div className="links">
 
