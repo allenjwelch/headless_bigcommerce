@@ -94,6 +94,7 @@ Connection.prototype = {
      */
     get: function (endpoint) {
 		console.log(this.host + endpoint)
+
         var self = this;
         return new Promise(function (fulfill, reject) {
             // Make GET request:
