@@ -20,14 +20,14 @@ class Product extends Component {
 	}
 
 	getProductData() {
-		Products.getProductById(this.props.location.state.id)
+		Products.getProductById(this.props.id)
 			.then(res =>
 				this.setState({ data: res.data.response.data }, () => {
 					console.log(this.state.data)
 				}))
 			.catch(err => console.log(err))
 
-		Products.getProductImages(this.props.location.state.id)
+		Products.getProductImages(this.props.id)
 			.then(res =>
 				this.setState({ images: res.data.response.data }, () => {
 					console.log(this.state.images)
@@ -44,50 +44,51 @@ class Product extends Component {
 		return result;
 	}
 
-	addToCart(lineItems) {
-		let btn = document.querySelector('.add-to-cart')
-		// btn.innerHTML = "Adding to cart..."
-		// btn.disabled = true
+	// addToCart(lineItems) { //! MOVED TO APP.js
+	// 	// let btn = document.querySelector('.add-to-cart')
+	// 	// btn.innerHTML = "Adding to cart..."
+	// 	// btn.disabled = true
 
-		if (localStorage.getItem('cart') !== null ) { // first check to see if a cart has already been created.
-			console.log('cart exists')
-			Cart.addToCart(localStorage.getItem('cart'), lineItems) //! illegal error
-				.then(res => {
-					console.log(res)
-					this.setState({ inCart: true }, () => {
-						console.log(this.state.inCart)
-					})
-				})
-				.then(() => {
-					// btn.innerHTML = "Add to Cart"
-					// btn.disabled = false
-				})
-				.catch(err => console.log(err))
+	// 	if (localStorage.getItem('cart') !== null ) { // first check to see if a cart has already been created.
+	// 		console.log('cart exists')
+	// 		Cart.addToCart(localStorage.getItem('cart'), lineItems) //! illegal error
+	// 			.then(res => {
+	// 				console.log(res)
+	// 				this.setState({ inCart: true }, () => {
+	// 					console.log(this.state.inCart)
+	// 				})
+	// 			})
+	// 			.then(() => {
+	// 				// btn.innerHTML = "Add to Cart"
+	// 				// btn.disabled = false
+	// 			})
+	// 			.catch(err => console.log(err))
 
-		} else {
-			console.log('creating new cart...')
-			Cart.createCart(lineItems)
-				.then(res => {
-					console.log(res)
-					localStorage.setItem('cart', res.data.response.data.id) // probably not the best way, but fuck it.
-					// this.setState({ cartResponse: res.data.response.data }, () => {
-					// 	console.log(this.state.cartResponse)
-					// })
-				})
-				.then(() => {
-					// btn.innerHTML = "Add to Cart"
-					// btn.disabled = false
-				})
-				.catch (err => {
-					console.log(err)
-					this.setState({ cartResponse: err }, () => {
-						console.log(this.state.cartResponse)
-					})
-				})
-		}
-	}
+	// 	} else {
+	// 		console.log('creating new cart...')
+	// 		Cart.createCart(lineItems)
+	// 			.then(res => {
+	// 				console.log(res)
+	// 				localStorage.setItem('cart', res.data.response.data.id) // probably not the best way, but fuck it.
+	// 				// this.setState({ cartResponse: res.data.response.data }, () => {
+	// 				// 	console.log(this.state.cartResponse)
+	// 				// })
+	// 			})
+	// 			.then(() => {
+	// 				// btn.innerHTML = "Add to Cart"
+	// 				// btn.disabled = false
+	// 			})
+	// 			.catch (err => {
+	// 				console.log(err)
+	// 				this.setState({ cartResponse: err }, () => {
+	// 					console.log(this.state.cartResponse)
+	// 				})
+	// 			})
+	// 	}
+	// }
 
 	render() {
+
 		return (
 			<main className="product-page">
 				<h1>{this.state.data.name}</h1>
@@ -130,7 +131,7 @@ class Product extends Component {
 										this.state.data.inventory_level > 0 ?
 											<div className="productView-actions">
 												<button className="add-to-cart"
-													onClick={() => this.addToCart({
+													onClick={() => this.props.addToCart({
 														"line_items": [
 															{
 																"quantity" : this.state.qty,
