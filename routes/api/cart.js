@@ -18,22 +18,6 @@ router.get("/", function (req, res) {
 router.post("/create", function (req, res) {
 	console.log('Data Received: ', req.body.lineItems)
 
-	// axios({
-	// 	method: 'post',
-	// 	url: 'https://eystudios-stencil.mybigcommerce.com/api/storefront/carts',
-	// 	data: {
-	// 		"lineItems": [req.body.lineItems ]
-	// 	}
-	// })
-	// .then(cart => {
-	// 	console.log(cart.data)
-	// 	res.json(cart.data)
-	// })
-	// .catch(err => {
-	// 	console.log(err.response.data)
-	// 	res.json(err.response.data)
-	// })
-
 	API.post('/carts', req.body.lineItems)
 		.then((response) => {
 			let responseData = { response };
@@ -55,16 +39,6 @@ router.get("/mycart/:cartId", function(req, res) {
 		.catch((err) => {
 			console.log(err)
 		})
-
-	// axios({
-	// 	method: 'get',
-	// 	url: `https:///eystudios-stencil.mybigcommerce.com/api/storefront/carts/${req.params.cartId}`,
-	// })
-	// .then((response) => {
-	// 	let responseData = { response };
-	// 	res.status(200).send(responseData);
-	// })
-	// .catch(err => console.log('ERROR: ' + err))
 })
 
 router.post("/mycart/addto/:cartId", function(req, res) {
@@ -79,12 +53,36 @@ router.post("/mycart/addto/:cartId", function(req, res) {
 		.catch((err) => {
 			console.log(err)
 		})
-
-
 })
 
-// router.put()
-// router.delete()
+router.put("/mycart/update/:cartId/:itemId", function(req, res) {
+	console.log('updating cart item')
+	console.log(req.body.lineItems)
+	console.log('cartId: ', req.params.cartId)
+	console.log('itemId: ', req.params.itemId)
+	API.put(`/carts/${req.params.cartId}/items/${req.params.itemId}`, req.body.lineItems)
+		.then((response) => {
+			let responseData = { response };
+			res.status(200).send(responseData);
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+})
+
+router.delete("/mycart/delete/:cartId/:itemId", function (req, res) {
+	console.log('deleting cart item...')
+	console.log('cartId: ', req.params.cartId)
+	console.log('itemId: ', req.params.itemId)
+	API.delete(`/carts/${req.params.cartId}/items/${req.params.itemId}`)
+		.then((response) => {
+			let responseData = { response };
+			res.status(200).send(responseData);
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+})
 // https://developer.bigcommerce.com/api-reference/cart-checkout/storefront-cart-api/cart/getacart
 
 

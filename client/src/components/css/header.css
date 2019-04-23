@@ -1,11 +1,13 @@
 header {
 	background-color: #fff;
 	min-height: 50px;
-	display: flex;
+	/* display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
-
+	justify-content: center; */
+	height: 180px;
+	height: auto;
+	box-shadow: 0 0 10px #ccc;
 }
 
 header .links a {
@@ -14,8 +16,47 @@ header .links a {
 	text-decoration: none;
 	font-weight: 700;
 	color: #333;
+	display: inline-block;
 }
 
 header .links a:hover {
 	color: rgb(58, 58, 187);
+}
+
+header .links {
+	padding: 20px;
+}
+
+header .cart-nav {
+	position: relative;
+	text-align: right;
+}
+
+header .App-logo {
+	text-align: left;
+	height: 100px;
+}
+
+header .site-info h1 {
+	margin: 0;
+}
+
+header .site-info, header .cart-nav, header .App-logo {
+	display: inline-block;
+	width: 30%;
+	vertical-align: middle;
+}
+
+header .cart-nav img {
+	height: 50px;
+	width: 50px;
+}
+
+header .cart-nav span {
+	vertical-align: top;
+	background: #000;
+	color: #fff;
+	padding: 2px 8px;
+	border-radius: 20px;
+	margin-left: -10px;
 }
