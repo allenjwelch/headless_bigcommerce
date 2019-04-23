@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Products from '../utils/productsAPI'
-import Cart from '../utils/cartAPI'
+// import Cart from '../utils/cartAPI'
 // import Cart from '../assets/js/cart'
 
 import './css/product.css';
@@ -23,14 +23,14 @@ class Product extends Component {
 		Products.getProductById(this.props.id)
 			.then(res =>
 				this.setState({ data: res.data.response.data }, () => {
-					console.log(this.state.data)
+					// console.log(this.state.data)
 				}))
 			.catch(err => console.log(err))
 
 		Products.getProductImages(this.props.id)
 			.then(res =>
 				this.setState({ images: res.data.response.data }, () => {
-					console.log(this.state.images)
+					// console.log(this.state.images)
 				}))
 			.catch(err => console.log(err))
 	}

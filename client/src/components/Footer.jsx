@@ -3,7 +3,7 @@ import React from 'react';
 import './css/footer.css';
 
 const Footer = (props) => {
-	console.log(props)
+	// console.log(props)
 
 	return (
 		<footer>
