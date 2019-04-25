@@ -15,9 +15,25 @@ class ProductCard extends Component {
 
 	componentDidMount() {
 		this.getProductImages()
-		// console.log(this.props)
+		console.log(this.props)
 		const { id, title, description, url } = this.props
-		this.setState({ id, title, description, url })
+		this.setState({ id, title, description, url }, () => {
+			console.log(this.state)
+			this.getProductData()
+
+		})
+	}
+
+	getProductData() {
+		console.log('getting product data')
+		if (this.state.title === undefined || this.state.url === undefined) {
+			Products.getProductById(this.props.id)
+				.then(res =>
+					this.setState({ title: res.data.response.data.name, description: res.data.response.data.description, url: res.data.response.data.custom_url.url }, () => {
+						console.log(this.state)
+					}))
+				.catch(err => console.log(err))
+		}
 	}
 
 	getProductImages() {

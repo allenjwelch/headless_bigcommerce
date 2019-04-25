@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Products from '../utils/productsAPI'
-// import Cart from '../utils/cartAPI'
-// import Cart from '../assets/js/cart'
+import ColorSwatch from '../components/ColorSwatch'
+import ProductCard from '../components/ProductCard'
 
 import './css/product.css';
 
@@ -10,6 +10,9 @@ class Product extends Component {
 	state = {
 		images: [],
 		data: {},
+		options: [],
+		modifiers: [],
+		// related_products: [],
 		qty: 1,
 		errorResponse: '',
 		inCart: false,
@@ -23,7 +26,8 @@ class Product extends Component {
 		Products.getProductById(this.props.id)
 			.then(res =>
 				this.setState({ data: res.data.response.data }, () => {
-					// console.log(this.state.data)
+					console.log(this.state.data)
+					this.getRelatedProducts()
 				}))
 			.catch(err => console.log(err))
 
@@ -33,14 +37,52 @@ class Product extends Component {
 					// console.log(this.state.images)
 				}))
 			.catch(err => console.log(err))
+
+		Products.getProductModifiers(this.props.id)
+			.then(res =>
+				this.setState({ modifiers: res.data.response.data }, () => {
+					console.log(this.state.modifiers)
+				}))
+			.catch(err => console.log(err))
+
+		Products.getProductOptions(this.props.id)
+			.then(res =>
+				this.setState({ options: res.data.response.data }, () => {
+					console.log(this.state.options)
+				}))
+			.catch(err => console.log(err))
 	}
 
-	removeHTML(str) { //! TODO: Need a better way to parse html string
-		let result = str.replace('<div>', '');
-		result = result.replace('</div>', '');
-		result = result.replace('<p>', '');
-		result = result.replace('</p>', '');
-		result = result.replace('</div>', '');
+	getRelatedProducts() {
+		if (this.state.data.related_products[0] === -1) { // if not manually chosen, select 4 from category
+			console.log('getting related products from category')
+			this.setState({ random_related_prodcuts : [130, 131, 132] }, () => { //! HARDCODED needs to pull in category id and search for products of same category
+				console.log(this.state.random_related_prodcuts)
+			})
+		}
+	}
+
+
+	consoleClick() {
+		console.log(this.state)
+	}
+
+
+
+	removeHTML(str) { //! TODO: Need a better way to parse html string ---->>>> USE REGEX ig
+		let result = str.replace(/<div>/ig, '');
+		result = result.replace(/<\/div>/ig, '');
+		result = str.replace(/<br \/>/ig, '');
+		result = result.replace(/<p>/ig, '');
+		result = result.replace(/<\/p>/ig, '');
+		result = result.replace(/<strong>/ig, '');
+		result = result.replace(/<\/strong>/ig, '');
+		result = result.replace(/<ul>/ig, '');
+		result = result.replace(/<\/ul>/ig, '');
+		result = result.replace(/<li>/ig, '');
+		result = result.replace(/<\/li>/ig, '');
+		result = result.replace(/<a.*?<\/a >/ig, '');
+
 		return result;
 	}
 
@@ -57,7 +99,7 @@ class Product extends Component {
 					{
 						this.state.images.length > 0 ?
 							<div className="productView-image-container">
-								<img id="product-image" src={this.state.images[0].url_standard} alt="main"/>
+								<img onClick={() => {this.consoleClick()}} id="product-image" src={this.state.images[0].url_standard} alt="main"/>
 
 								<div className="productView-thumbnails">
 									{
@@ -82,6 +124,67 @@ class Product extends Component {
 
 									<h2>Description: </h2>
 									{ this.removeHTML(this.state.data.description) }
+
+									{
+										this.state.options.length > 0 ?
+											<div className="productView-options">
+												<h2>Options:</h2>
+
+												{
+													this.state.options.map(option => {
+														return <div key={option.id} className={option.display_name}>
+															<h3>{option.display_name}</h3>
+															<ul>
+																{
+																	option.option_values.map(value => {
+																		if (option.type === 'swatch') {
+																			return <ColorSwatch key={value.id} color={value.value_data.colors[0]} />
+																		} else {
+																			return <li key={value.id} >{value.label}</li>
+																		}
+																	})
+																}
+															</ul>
+														</div>
+
+
+														// option.type === 'swatch'
+													})
+												}
+
+											</div>
+
+											: this.state.modifiers.length > 0 ?
+												<div className="productView-options">
+													<h2>Options:</h2>
+
+													{
+														this.state.modifiers.map(option => {
+															return <div key={option.id} className={option.display_name}>
+																<h3>{option.display_name}</h3>
+																<ul>
+																	{
+																		option.option_values.map(value => {
+																			if (option.type === 'swatch') {
+																				return <ColorSwatch key={value.id} color={value.value_data.colors[0]} />
+																			} else {
+																			return <li key={value.id}>{value.label}</li>
+																			}
+																		})
+																	}
+																</ul>
+															</div>
+
+
+															// option.type === 'swatch'
+														})
+													}
+
+												</div>
+
+												: <h1>no options</h1>
+									}
+
 
 
 									{
@@ -117,9 +220,38 @@ class Product extends Component {
 						}
 					</article>
 
+				</section>
+
+				<section className="related-products">
+					<h2>Related Products</h2>
+					{
+						this.state.data.related_products && this.state.data.related_products[0] !== -1 ?
+							this.state.data.related_products.map(id =>
+								<ProductCard key={id} id={id} />
+							)
+						: this.state.random_related_prodcuts ?
+							this.state.random_related_prodcuts.map(id =>
+								<ProductCard key={id} id={id} />
+							)
+						: <h1>no related products</h1>
+					}
+					{/* {
+
+						this.state.related_products &&
+						<div>related
+
+							{
+							this.state.related_products.map(product => {
+								return <h1>product</h1>
+							// return <ProductCard key={product.id} id={product.id} title={product.name} url={product.custom_url.url} description={product.description} />
+							})
+
+							}
+						</div>
+						// : <h1>not related</h1>
 
 
-
+					} */}
 				</section>
 
 			</main>
