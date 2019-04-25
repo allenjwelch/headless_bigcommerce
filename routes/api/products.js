@@ -69,6 +69,17 @@ router.get("/:id/variants", function (req, res) {
 		})
 })
 
+router.get("/:id/modifiers", function (req, res) {
+	API.get(`/catalog/products/${req.params.id}/modifiers`)
+		.then((response) => {
+			let responseData = { response };
+			res.status(200).send(responseData);
+		})
+		.catch((err) => {
+			console.log(err)
+		})
+})
+
 router.get("/:id/reviews", function (req, res) {
 	API.get(`/catalog/products/${req.params.id}/reviews`)
 		.then((response) => {

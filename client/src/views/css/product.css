@@ -14,6 +14,15 @@
 	vertical-align: top;
 }
 
+.productView-image-container {
+	/* max-height: 500px; */
+}
+
+#product-image {
+	height: auto;
+	max-height: 500px;
+}
+
 .productView-thumbnails {
 	display: block;
 	margin: 10px auto;
@@ -29,6 +38,19 @@
 
 .productView-details-container {
 	text-align: left;
+}
+
+.productView-options ul {
+	padding: 0;
+
+}
+
+.productView-options li {
+	display: inline-block;
+	padding: 5px;
+	border: 1px solid #333;
+	margin: 0 5px;
+	cursor: pointer;
 }
 
 .productView-actions {
@@ -64,4 +86,13 @@
 .productView-actions .add-to-wishlist:hover {
 	background: #fff;
 	color: #5252b8
+}
+
+.related-products {
+	width: 90%;
+	margin: 0 auto 100px;
+}
+
+.related-products .product-card:nth-child(n+6){
+	display: none;
 }
