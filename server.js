@@ -11,6 +11,10 @@ app.use(routes);
 
 process.env.PORT ? console.log('Running Production') : console.log('Runnining Development: "Cara\'s Stencil Demo"')
 
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static("client/build"));
+}
+
 app.listen(PORT, function () {
     console.log('App listening on PORT ' + PORT);
 });
