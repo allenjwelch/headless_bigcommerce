@@ -8,6 +8,11 @@ header {
 	height: 180px;
 	height: auto;
 	box-shadow: 0 0 10px #ccc;
+	padding: 10px 2% 0;
+}
+header .header-container {
+	max-width: 1400px;
+	margin: 0 auto;
 }
 
 header .links a {
@@ -32,9 +37,21 @@ header .cart-nav {
 	text-align: right;
 }
 
-header .App-logo {
+/* header .App-logo {
 	text-align: left;
 	height: 100px;
+} */
+
+header .store-logo {
+	display: inline-block;
+    width: 30%;
+    vertical-align: middle;
+	text-align: left;
+}
+
+header .store-logo img {
+	height: 100px;
+
 }
 
 header .site-info h1 {
