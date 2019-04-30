@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Products from '../utils/productsAPI'
 import ColorSwatch from '../components/ColorSwatch'
+import ProductPickList from '../components/ProductPickList'
 import ProductCard from '../components/ProductCard'
 import loading from '../assets/images/loading.svg'
 
@@ -120,7 +121,7 @@ class Product extends Component {
 
 					<article className="productView-details">
 						{
-							this.state.data.availability === "available" ?
+							this.state.data.inventory_level > 0 ?
 								<div className="productView-details-container">
 									<h2>Price: ${this.state.data.price}</h2>
 									<h3>Inventory: {this.state.data.inventory_level}</h3>
@@ -142,8 +143,11 @@ class Product extends Component {
 																	option.option_values.map(value => {
 																		if (option.type === 'swatch') {
 																			return <ColorSwatch key={value.id} color={value.value_data.colors[0]} />
+																		} else if (option.type === 'product_list_with_images') {
+																			console.log(value)
+																			return <ProductPickList key={value.id} id={value.value_data.product_id} />
 																		} else {
-																			return <li key={value.id} >{value.label}</li>
+																			return <li key={value.id}>{value.label}</li>
 																		}
 																	})
 																}
@@ -170,8 +174,10 @@ class Product extends Component {
 																		option.option_values.map(value => {
 																			if (option.type === 'swatch') {
 																				return <ColorSwatch key={value.id} color={value.value_data.colors[0]} />
+																			} else if (option.type === 'product_list_with_images') {
+																				return <ProductPickList key={value.id} id={value.value_data.id} />
 																			} else {
-																			return <li key={value.id}>{value.label}</li>
+																				return <li key={value.id}>{value.label}</li>
 																			}
 																		})
 																	}
@@ -193,15 +199,29 @@ class Product extends Component {
 									{
 										this.state.data.inventory_level > 0 ?
 											<div className="productView-actions">
-												<button className="add-to-cart"
-													onClick={() => this.props.addToCart({
-														"line_items": [
-															{
-																"quantity" : this.state.qty,
-																"product_id" : this.state.data.id,
-															}
-														]
-													})}>Add to Cart</button>
+
+												{
+													this.state.data.availability === 'available' ?
+
+														<button className="add-to-cart"
+															onClick={() => this.props.addToCart({
+																"line_items": [
+																	{
+																		"quantity" : this.state.qty,
+																		"product_id" : this.state.data.id,
+																	}
+																]
+															})}>Add to Cart</button>
+														: <button className="add-to-cart"
+															onClick={() => this.props.addToCart({
+																"line_items": [
+																	{
+																		"quantity": this.state.qty,
+																		"product_id": this.state.data.id,
+																	}
+																]
+															})}>Pre-Order</button>
+												}
 
 												<button className="add-to-wishlist">Wishlist</button>
 

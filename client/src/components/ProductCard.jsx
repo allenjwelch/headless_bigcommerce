@@ -18,22 +18,22 @@ class ProductCard extends Component {
 
 	componentDidMount() {
 		this.getProductImages()
-		console.log(this.props)
+		// console.log(this.props)
 		const { id, title, description, url } = this.props
 		this.setState({ id, title, description, url }, () => {
-			console.log(this.state)
+			// console.log(this.state)
 			this.getProductData()
 
 		})
 	}
 
 	getProductData() {
-		console.log('getting product data')
+		// console.log('getting product data')
 		if (this.state.title === undefined || this.state.url === undefined) {
 			Products.getProductById(this.props.id)
 				.then(res =>
 					this.setState({ title: res.data.response.data.name, description: res.data.response.data.description, url: res.data.response.data.custom_url.url }, () => {
-						console.log(this.state)
+						// console.log(this.state)
 					}))
 				.catch(err => console.log(err))
 		}
@@ -45,7 +45,7 @@ class ProductCard extends Component {
 				this.setState({ images: res.data.response.data}, () => {
 					if(this.state.images.length === 0) {
 						this.setState({noImage: true})
-						console.log(this.state.images)
+						// console.log(this.state.images)
 					}
 				}))
 			.catch(err => console.log(err))
