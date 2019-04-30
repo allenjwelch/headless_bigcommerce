@@ -44,14 +44,14 @@ class Product extends Component {
 		Products.getProductModifiers(this.props.id)
 			.then(res =>
 				this.setState({ modifiers: res.data.response.data }, () => {
-					console.log(this.state.modifiers)
+					// console.log(this.state.modifiers)
 				}))
 			.catch(err => console.log(err))
 
 		Products.getProductOptions(this.props.id)
 			.then(res =>
 				this.setState({ options: res.data.response.data }, () => {
-					console.log(this.state.options)
+					// console.log(this.state.options)
 				}))
 			.catch(err => console.log(err))
 	}
@@ -144,7 +144,6 @@ class Product extends Component {
 																		if (option.type === 'swatch') {
 																			return <ColorSwatch key={value.id} color={value.value_data.colors[0]} />
 																		} else if (option.type === 'product_list_with_images') {
-																			console.log(value)
 																			return <ProductPickList key={value.id} id={value.value_data.product_id} />
 																		} else {
 																			return <li key={value.id}>{value.label}</li>
@@ -175,7 +174,7 @@ class Product extends Component {
 																			if (option.type === 'swatch') {
 																				return <ColorSwatch key={value.id} color={value.value_data.colors[0]} />
 																			} else if (option.type === 'product_list_with_images') {
-																				return <ProductPickList key={value.id} id={value.value_data.id} />
+																				return <ProductPickList key={value.id} id={value.value_data.product_id} />
 																			} else {
 																				return <li key={value.id}>{value.label}</li>
 																			}

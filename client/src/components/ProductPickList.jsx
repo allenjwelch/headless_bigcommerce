@@ -11,7 +11,7 @@ class ProductPickList extends React.Component {
 		Products.getProductImages(this.props.id)
 			.then(res => {
 				this.setState({ image: res.data.response.data[0].url_standard }, () => {
-					console.log(this.state.image)
+					// console.log(this.state.image)
 				})
 			})
 			.catch(err => console.log(err))
