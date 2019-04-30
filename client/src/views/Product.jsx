@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Products from '../utils/productsAPI'
 import ColorSwatch from '../components/ColorSwatch'
 import ProductCard from '../components/ProductCard'
+import loading from '../assets/images/loading.svg'
+
 
 import './css/product.css';
 
@@ -110,7 +112,8 @@ class Product extends Component {
 								</div>
 							</div>
 
-						: <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg" alt="" />
+						: <img src={loading} alt="loading"/>
+						// <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg" alt="" />
 					}
 					</article>
 
