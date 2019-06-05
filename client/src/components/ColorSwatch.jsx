@@ -5,8 +5,9 @@ const ColorSwatch = props => {
 
 	const style = {
 		background: props.color,
-		height: "20px",
-		width: "20px"
+		height: "40px",
+		width: "40px",
+		padding: "0px"
 	}
 	return (
 		<li style={style}></li>
